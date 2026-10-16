@@ -1,0 +1,772 @@
+{
+  "version": 1,
+  "generated": "2026-10-15",
+  "notes": {
+    "master": "One 9:16 master per background; the app trims the top and bottom 15 percent for the 4:5 and 1:1 cuts. Cream is a seamless square tile.",
+    "window": "null = always available; 'any' = milestone, shown year-round under its group; {start,end} = MM-DD inclusive, end may wrap past Dec 31; rules: easter (daysBefore Easter Sunday through Easter), dogParentWeeks (the 7 days ending on Mother's Day and on Father's Day).",
+    "inMemory": "false = hidden on the In Memory picker (celebratory). Dusk is the In Memory default.",
+    "textShadow": "Busy sky: the app draws a faint shadow behind the dedication text.",
+    "spots": "Jetson's Spots (6 real photos) are not in this manifest yet."
+  },
+  "backgrounds": [
+    {
+      "id": "Cream",
+      "name": "Cream",
+      "file": "Cream_tile.webp",
+      "group": "always",
+      "width": 2048,
+      "height": 2048,
+      "aspect": "1:1",
+      "window": null,
+      "inMemory": true,
+      "default": true,
+      "inMemoryDefault": false,
+      "winnersOnly": false,
+      "tile": true
+    },
+    {
+      "id": "Twilight",
+      "name": "Twilight",
+      "file": "Twilight_9x16.webp",
+      "group": "always",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": null,
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "Parchment",
+      "name": "Parchment",
+      "file": "Parchment_9x16.webp",
+      "group": "always",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": null,
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "CoverSky",
+      "name": "Cover Sky",
+      "file": "CoverSky_9x16.webp",
+      "group": "always",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": null,
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false,
+      "textShadow": true
+    },
+    {
+      "id": "CoverLandscape",
+      "name": "Cover Landscape",
+      "file": "CoverLandscape_9x16.webp",
+      "group": "always",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": null,
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "Dusk",
+      "name": "Dusk",
+      "file": "Dusk_9x16.webp",
+      "group": "always",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": null,
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": true,
+      "winnersOnly": false
+    },
+    {
+      "id": "StarryNight",
+      "name": "Starry Night",
+      "file": "StarryNight_9x16.webp",
+      "group": "always",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": null,
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "MainStreet",
+      "name": "Main Street",
+      "file": "MainStreet_9x16.webp",
+      "group": "always",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": null,
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "RoadEast",
+      "name": "The Road East",
+      "file": "RoadEast_9x16.webp",
+      "group": "always",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": null,
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false,
+      "textShadow": true
+    },
+    {
+      "id": "Gold",
+      "name": "Gold",
+      "file": "Gold_9x16.webp",
+      "group": "gold",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": null,
+      "inMemory": false,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": true
+    },
+    {
+      "id": "Birthday",
+      "name": "Birthday",
+      "file": "Birthday_9x16.webp",
+      "group": "milestone",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": "any",
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "BirthdayBalloons",
+      "name": "Birthday Balloons",
+      "file": "BirthdayBalloons_9x16.webp",
+      "group": "milestone",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": "any",
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "BirthdayCupcake",
+      "name": "Birthday Cupcake",
+      "file": "BirthdayCupcake_9x16.webp",
+      "group": "milestone",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": "any",
+      "inMemory": false,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "GotchaDay",
+      "name": "Gotcha Day",
+      "file": "GotchaDay_9x16.webp",
+      "group": "milestone",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": "any",
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "WelcomeHome",
+      "name": "Welcome Home",
+      "file": "WelcomeHome_9x16.webp",
+      "group": "milestone",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": "any",
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "GrayMuzzle",
+      "name": "Gray Muzzle",
+      "file": "GrayMuzzle_9x16.webp",
+      "group": "milestone",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": "any",
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "Winter",
+      "name": "Winter",
+      "file": "Winter_9x16.webp",
+      "group": "season",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "01-02",
+        "end": "01-31"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "WinterClose",
+      "name": "Winter Close-Up",
+      "file": "WinterClose_9x16.webp",
+      "group": "season",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "01-02",
+        "end": "01-31"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "Spring",
+      "name": "Spring",
+      "file": "Spring_9x16.webp",
+      "group": "season",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "03-01",
+        "end": "05-31"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "SpringClose",
+      "name": "Spring Close-Up",
+      "file": "SpringClose_9x16.webp",
+      "group": "season",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "03-01",
+        "end": "05-31"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "Summer",
+      "name": "Summer",
+      "file": "Summer_9x16.webp",
+      "group": "season",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "06-01",
+        "end": "08-31"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "SummerClose",
+      "name": "Summer Close-Up",
+      "file": "SummerClose_9x16.webp",
+      "group": "season",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "06-01",
+        "end": "08-31"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "Fall",
+      "name": "Fall",
+      "file": "Fall_9x16.webp",
+      "group": "season",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "09-01",
+        "end": "11-30"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "FallClose",
+      "name": "Fall Close-Up",
+      "file": "FallClose_9x16.webp",
+      "group": "season",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "09-01",
+        "end": "11-30"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "Valentines",
+      "name": "Valentine's",
+      "file": "Valentines_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "02-01",
+        "end": "02-14"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "ValentinesHearts",
+      "name": "Valentine's Hearts",
+      "file": "ValentinesHearts_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "02-01",
+        "end": "02-14"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "ValentinesClose",
+      "name": "Valentine's Close-Up",
+      "file": "ValentinesClose_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "02-01",
+        "end": "02-14"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "EasterEggs",
+      "name": "Easter Eggs",
+      "file": "EasterEggs_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "rule": "easter",
+        "daysBefore": 14,
+        "daysAfter": 0
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "EasterBunny",
+      "name": "Easter Bunny",
+      "file": "EasterBunny_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "rule": "easter",
+        "daysBefore": 14,
+        "daysAfter": 0
+      },
+      "inMemory": false,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "DogParent",
+      "name": "Dog Mom / Dog Dad",
+      "file": "DogParent_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "rule": "dogParentWeeks",
+        "weekEndingOn": [
+          "mothersDay",
+          "fathersDay"
+        ]
+      },
+      "inMemory": false,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "July4",
+      "name": "Fourth of July",
+      "file": "July4_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "07-01",
+        "end": "07-05"
+      },
+      "inMemory": false,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "July4Close",
+      "name": "Fourth of July Close-Up",
+      "file": "July4Close_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "07-01",
+        "end": "07-05"
+      },
+      "inMemory": false,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "DogDay",
+      "name": "National Dog Day",
+      "file": "DogDay_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "08-20",
+        "end": "08-26"
+      },
+      "inMemory": false,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "DogDayClose",
+      "name": "National Dog Day Close-Up",
+      "file": "DogDayClose_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "08-20",
+        "end": "08-26"
+      },
+      "inMemory": false,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "Halloween",
+      "name": "Halloween",
+      "file": "Halloween_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "10-15",
+        "end": "10-31"
+      },
+      "inMemory": false,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "HalloweenCover",
+      "name": "Halloween Cover",
+      "file": "HalloweenCover_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "10-15",
+        "end": "10-31"
+      },
+      "inMemory": false,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "HalloweenClose",
+      "name": "Halloween Close-Up",
+      "file": "HalloweenClose_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "10-15",
+        "end": "10-31"
+      },
+      "inMemory": false,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "Thanksgiving",
+      "name": "Thanksgiving",
+      "file": "Thanksgiving_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "11-15",
+        "end": "11-26"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "ThanksgivingClose",
+      "name": "Thanksgiving Close-Up",
+      "file": "ThanksgivingClose_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "11-15",
+        "end": "11-26"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "Christmas",
+      "name": "Christmas",
+      "file": "Christmas_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "12-01",
+        "end": "12-25"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "ChristmasCover",
+      "name": "Christmas Cover",
+      "file": "ChristmasCover_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "12-01",
+        "end": "12-25"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "ChristmasClose",
+      "name": "Christmas Close-Up",
+      "file": "ChristmasClose_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "12-01",
+        "end": "12-25"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "ChristmasSanta",
+      "name": "Christmas Santa",
+      "file": "ChristmasSanta_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "12-01",
+        "end": "12-25"
+      },
+      "inMemory": false,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "ChristmasTree",
+      "name": "Christmas Tree Lights",
+      "file": "ChristmasTree_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "12-01",
+        "end": "12-25"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "Gingerbread",
+      "name": "Gingerbread House",
+      "file": "Gingerbread_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "12-01",
+        "end": "12-25"
+      },
+      "inMemory": false,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "December",
+      "name": "December",
+      "file": "December_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "12-26",
+        "end": "01-01"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    },
+    {
+      "id": "DecemberClose",
+      "name": "December Close-Up",
+      "file": "DecemberClose_9x16.webp",
+      "group": "holiday",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "12-26",
+        "end": "01-01"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false
+    }
+  ]
+}
