@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "generated": "2026-10-15",
+  "generated": "2026-10-20",
   "notes": {
     "master": "One 9:16 master per background; the app trims the top and bottom 15 percent for the 4:5 and 1:1 cuts. Cream is a seamless square tile.",
     "window": "null = always available; 'any' = milestone, shown year-round under its group; {start,end} = MM-DD inclusive, end may wrap past Dec 31; rules: easter (daysBefore Easter Sunday through Easter), dogParentWeeks (the 7 days ending on Mother's Day and on Father's Day).",
     "inMemory": "false = hidden on the In Memory picker (celebratory). Dusk is the In Memory default.",
     "textShadow": "Busy sky: the app draws a faint shadow behind the dedication text.",
-    "spots": "Jetson's Spots (6 real photos) are not in this manifest yet."
+    "spots": "Jetson's Spots: real photos with Jetson removed. The reader lifts their dog out of a phone photo as a sticker and places it where Jetson sat; no book frame, the dedication text goes in the open area. sticker=true marks them."
   },
   "backgrounds": [
     {
@@ -767,6 +767,108 @@
       "default": false,
       "inMemoryDefault": false,
       "winnersOnly": false
+    },
+    {
+      "id": "SpotHydrant",
+      "name": "Spot: Red Hydrant",
+      "file": "SpotHydrant_9x16.webp",
+      "group": "spot",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": null,
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false,
+      "sticker": true
+    },
+    {
+      "id": "SpotGoldLeaves",
+      "name": "Spot: Gold Leaves",
+      "file": "SpotGoldLeaves_9x16.webp",
+      "group": "spot",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "09-01",
+        "end": "11-30"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false,
+      "sticker": true
+    },
+    {
+      "id": "SpotCrimsonLeaves",
+      "name": "Spot: Crimson Leaves",
+      "file": "SpotCrimsonLeaves_9x16.webp",
+      "group": "spot",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "09-01",
+        "end": "11-30"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false,
+      "sticker": true
+    },
+    {
+      "id": "SpotCove",
+      "name": "Spot: Foggy Cove",
+      "file": "SpotCove_9x16.webp",
+      "group": "spot",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": null,
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false,
+      "sticker": true
+    },
+    {
+      "id": "SpotWreath",
+      "name": "Spot: Copper Wall Garland",
+      "file": "SpotWreath_9x16.webp",
+      "group": "spot",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "12-01",
+        "end": "12-25"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false,
+      "sticker": true
+    },
+    {
+      "id": "SpotTree",
+      "name": "Spot: Christmas Tree",
+      "file": "SpotTree_9x16.webp",
+      "group": "spot",
+      "width": 1648,
+      "height": 2944,
+      "aspect": "9:16",
+      "window": {
+        "start": "12-01",
+        "end": "12-25"
+      },
+      "inMemory": true,
+      "default": false,
+      "inMemoryDefault": false,
+      "winnersOnly": false,
+      "sticker": true
     }
   ]
 }

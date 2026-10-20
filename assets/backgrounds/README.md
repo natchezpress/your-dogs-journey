@@ -1,6 +1,6 @@
 # Dedication backgrounds
 
-Forty-seven generated backgrounds for the dedication maker, version 1.0, plus a manifest. Jetson's Spots (six real photos) are added separately.
+Fifty-three backgrounds for the dedication maker, version 1.0, plus a manifest: forty-seven generated in Midjourney and six Jetson's Spots (`Spot*.webp`), real photos with Jetson removed, where the reader's dog sticker takes his place. The Spots came through ChatGPT at 1086×1448, were upscaled 2× (FSRCNN), had handwritten gift tags painted out on the tree photo, and were cut to 9:16 at 1648×2944 to match the set.
 
 - `*.webp` — full-resolution web copies (1648×2944 for the 9:16 masters, 2048×2048 for the Cream tile), WebP quality 86. These are what the app serves.
 - `backgrounds.json` — one entry per background: group, date window, In Memory flag, defaults, and the busy-sky flag that turns on the text shadow.
