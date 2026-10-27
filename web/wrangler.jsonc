@@ -1,0 +1,9 @@
+{
+  // Cloudflare Workers deploy config: static assets only for now; the wall's API joins later as "main".
+  "name": "your-dogs-journey",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}

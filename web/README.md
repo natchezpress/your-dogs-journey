@@ -9,16 +9,15 @@ npm install
 npm run dev
 ```
 
-## Cloudflare Pages settings (Connect to Git → this repo)
+## Cloudflare settings (Workers & Pages → Create → Connect GitHub → this repo)
 | Setting | Value |
 | --- | --- |
 | Production branch | `main` |
-| Framework preset | Vite |
 | Root directory | `web` |
 | Build command | `npm run build` |
-| Build output directory | `dist` |
+| Deploy command | `npx wrangler deploy` |
 
-Then **Custom domains → Set up a custom domain** with the subdomain; Cloudflare shows the CNAME target to add in the domain's DNS at Wix.
+`wrangler.jsonc` points the Worker at `dist/` as static assets. Then **Settings → Domains & Routes → Add → Custom domain** with the subdomain; Cloudflare shows the CNAME target to add in the domain's DNS at Wix.
 
 ## Layout
 - `index.html` — landing (Jetson's entry No. 1) and the four-step maker
