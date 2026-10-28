@@ -17,7 +17,10 @@ npm run dev
 | Build command | `npm run build` |
 | Deploy command | `npx wrangler deploy` |
 
-`wrangler.jsonc` points the Worker at `dist/` as static assets. Then **Settings → Domains & Routes → Add → Custom domain** with the subdomain; Cloudflare shows the CNAME target to add in the domain's DNS at Wix.
+`wrangler.jsonc` points the Worker at `dist/` as static assets.
+
+## Domain
+Live at **https://dedication.jetsonsjourney.com** (Worker → Domains → Add Domain). A Worker custom domain needs the whole zone on Cloudflare, so jetsonsjourney.com's nameservers were moved from Wix to Cloudflare on 2026-10-28 (martin/maya.ns.cloudflare.com); its old records (GitHub Pages bounce to brockalston.com/jetsonsjourney, www CNAME, MX, SPF) were copied over as DNS-only. brockalston.com stays on Wix untouched. Test URL: https://your-dogs-journey.brock-535.workers.dev.
 
 ## Layout
 - `index.html` — landing (Jetson's entry No. 1) and the four-step maker

@@ -24,7 +24,7 @@ const QUIET = '#6b625a';
 const SERIF = '"EB Garamond", Garamond, Georgia, "Times New Roman", serif';
 
 export const FOOTER_LINE = 'Every dog deserves a dedication';
-export const SITE = 'dedication.brockalston.com';
+export const SITE = 'dedication.jetsonsjourney.com';
 
 function roundRect(ctx, x, y, w, h, r) {
   ctx.beginPath();
