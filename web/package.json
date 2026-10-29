@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vite build && wrangler d1 migrations apply dedication-wall --remote",
+    "preview": "vite preview",
+    "migrate:local": "wrangler d1 migrations apply dedication-wall --local",
+    "dev:worker": "wrangler dev"
   },
   "devDependencies": {
     "vite": "^6.0.0",
