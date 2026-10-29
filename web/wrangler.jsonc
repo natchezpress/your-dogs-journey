@@ -1,7 +1,8 @@
 {
   // Cloudflare Workers deploy config for the Dedication Maker and Wall.
-  // Built by Workers Builds on every push (root web/, `npm run build`, `npx wrangler deploy`).
-  // The static maker is served from ./dist through the ASSETS binding; worker.js answers everything else.
+  // Built by Workers Builds on every push (root web/, `npm run build`, `npx wrangler deploy` on main,
+  // `npx wrangler preview` on every other branch). The static maker is served from ./dist through the
+  // ASSETS binding; worker.js answers everything else.
   "name": "your-dogs-journey",
   "main": "src/worker.js",
   "compatibility_date": "2026-10-01",
@@ -14,7 +15,7 @@
     "run_worker_first": ["/api/*", "/d/*", "/wall", "/memory", "/i/*", "/rounds/*", "/rules", "/privacy", "/terms", "/admin", "/admin/*", "/p/*"]
   },
   "d1_databases": [
-    { "binding": "DB", "database_name": "dedication-wall", "database_id": "344030a2-af4e-4963-9d8b-01a97b6059ae", "migrations_dir": "migrations" }
+    { "binding": "DB", "database_name": "dedication-wall", "database_id": "344030a2-af4e-4963-9d8b-01a97b6059ae", "preview_database_id": "a4c4c759-f453-4044-bf76-0a5900448530", "migrations_dir": "migrations" }
   ],
   "r2_buckets": [
     { "binding": "PHOTOS", "bucket_name": "dedication-photos" }
@@ -31,5 +32,23 @@
     // Daily at 13:00 UTC (7 a.m. Central in winter, 8 a.m. in summer): digest, anniversaries, thresholds.
     "crons": ["0 13 * * *"]
   },
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+
+  // Branch previews (wall-your-dogs-journey.brock-535.workers.dev and the like) get their own storage,
+  // so test dogs never touch the real wall. Migrations for the preview database run from scripts/migrate.mjs.
+  "previews": {
+    "vars": {
+      "POSTING_ENABLED": "true",
+      "DEV_MODE": "true",
+      "SITE_URL": "https://wall-your-dogs-journey.brock-535.workers.dev",
+      "CONTACT_EMAIL": "admin@brockalston.com"
+    },
+    "d1_databases": [
+      { "binding": "DB", "database_name": "dedication-wall-preview", "database_id": "a4c4c759-f453-4044-bf76-0a5900448530", "migrations_dir": "migrations" }
+    ],
+    "r2_buckets": [
+      { "binding": "PHOTOS", "bucket_name": "dedication-photos-preview" }
+    ],
+    "observability": { "enabled": true }
+  }
 }

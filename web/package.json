@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && wrangler d1 migrations apply dedication-wall --remote",
+    "build": "vite build && node scripts/migrate.mjs",
     "preview": "vite preview",
-    "migrate:local": "wrangler d1 migrations apply dedication-wall --local",
+    "migrate:local": "node scripts/migrate.mjs --local",
     "dev:worker": "wrangler dev"
   },
   "devDependencies": {
