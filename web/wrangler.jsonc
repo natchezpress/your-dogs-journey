@@ -12,7 +12,7 @@
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
     // Let the Worker run first for API and wall routes; static files still win for everything else.
-    "run_worker_first": ["/api/*", "/d/*", "/wall", "/memory", "/i/*", "/rounds/*", "/rules", "/privacy", "/terms", "/admin", "/admin/*", "/p/*"]
+    "run_worker_first": ["/api/*", "/d/*", "/wall", "/memory", "/i/*", "/privacy", "/terms", "/admin", "/admin/*", "/p/*"]
   },
   "d1_databases": [
     { "binding": "DB", "database_name": "dedication-wall", "database_id": "344030a2-af4e-4963-9d8b-01a97b6059ae", "preview_database_id": "a4c4c759-f453-4044-bf76-0a5900448530", "migrations_dir": "migrations" }
@@ -29,7 +29,7 @@
     "CONTACT_EMAIL": "admin@brockalston.com"
   },
   "triggers": {
-    // Daily at 13:00 UTC (7 a.m. Central in winter, 8 a.m. in summer): digest, anniversaries, thresholds.
+    // Daily at 13:00 UTC (7 a.m. Central in winter, 8 a.m. in summer): the Monday digest.
     "crons": ["0 13 * * *"]
   },
   "observability": { "enabled": true },

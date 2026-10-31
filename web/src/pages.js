@@ -38,8 +38,7 @@ h1 a{text-decoration:none;color:inherit}
 .empty{padding:40px 16px;text-align:center;color:var(--quiet)}
 footer{margin-top:40px;padding-top:16px;border-top:1px solid #e3d9c7;font-family:var(--sans);font-size:13px;color:var(--quiet);display:flex;gap:14px;flex-wrap:wrap}
 footer a{color:var(--quiet)}
-.rules{max-width:760px}.rules h2{font-size:22px;font-weight:500;margin:28px 0 8px}.rules p{margin:0 0 12px}
-.goal{background:#fff;border:1px dashed #cdbf9f;border-radius:10px;padding:12px 14px;font-family:var(--sans);font-size:14px;color:var(--quiet);margin:0 0 20px}
+.prose{max-width:760px}.prose h2{font-size:22px;font-weight:500;margin:28px 0 8px}.prose p{margin:0 0 12px}
 `;
 
 function layout({ title, description, image, url, body, nav = '', noindex = false }) {
@@ -72,7 +71,6 @@ ${body}
   <a href="/">Make a dedication</a>
   <a href="/wall">The wall</a>
   <a href="/memory">In Memory</a>
-  <a href="/rules">Contest rules</a>
   <a href="https://brockalston.com/privacy-policy">Privacy</a>
   <a href="https://brockalston.com/terms-of-use">Terms</a>
   <a href="https://brockalston.com/jetsonsjourney">The book</a>
@@ -87,15 +85,14 @@ const nav = (on) => ['/wall|The wall', '/memory|In Memory', '/|Make yours'].map(
 
 const cardHtml = (e) => `<a class="card" href="/d/${h(e.id)}"><img src="/p/${h(e.id)}/card.jpg" alt="${h(e.dog_name)}" loading="lazy" /><div class="meta"><span class="name">${h(e.dog_name)}</span><span class="hearts">♥ ${e.hearts}</span></div></a>`;
 
-export function wallPage({ entries, dotd, memory = false, goal, site }) {
+export function wallPage({ entries, dotd, memory = false, site }) {
   const title = memory ? 'In Memory · Every Dog Deserves a Dedication' : 'The Dedication Wall';
   const description = memory
     ? 'A quiet wall for the dogs we have lost, each with the dedication they deserved.'
     : 'Dogs and the dedications their people wrote for them, from readers of Jetson’s Journey.';
   const body = `
 ${!memory && dotd ? `<div class="dotd"><img src="/p/${h(dotd.id)}/card.jpg" alt="" /><div><div class="lab">Dog of the day</div><div class="dogname" style="font-size:26px;margin:2px 0 4px">${h(dotd.dog_name)}</div><div class="line" style="font-size:18px;margin:0 0 6px">${h(dotd.line)}</div><a href="/d/${h(dotd.id)}">See the page →</a></div></div>` : ''}
-${goal ? `<div class="goal">${h(goal)}</div>` : ''}
-<p class="lede">${memory ? 'For the dogs who are gone. Hearts are welcome; nothing here is a contest.' : 'Newest first. Tap a dog to see the page and leave a heart.'}</p>
+<p class="lede">${memory ? 'For the dogs who are gone. Hearts are welcome.' : 'Newest first. Tap a dog to see the page and leave a heart.'}</p>
 ${entries.length ? `<div class="grid">${entries.map(cardHtml).join('')}</div>` : `<div class="empty">${memory ? 'No dedications here yet.' : 'The wall is empty for now. Be the first: <a href="/">make a dedication</a>.'}</div>`}`;
   return layout({ title, description, url: `${site}${memory ? '/memory' : '/wall'}`, body, nav: nav(memory ? '/memory' : '/wall') });
 }
@@ -124,7 +121,7 @@ export function dogPage({ e, site, hearted = false, invite = true }) {
 }
 
 export function simplePage({ title, description = title, bodyHtml, site, path, noindex = false }) {
-  return layout({ title, description, url: site && path ? `${site}${path}` : '', body: `<div class="rules">${bodyHtml}</div>`, nav: nav(''), noindex });
+  return layout({ title, description, url: site && path ? `${site}${path}` : '', body: `<div class="prose">${bodyHtml}</div>`, nav: nav(''), noindex });
 }
 
 export function notFoundPage() {

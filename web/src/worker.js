@@ -1,14 +1,13 @@
 // Dedication Maker and Wall · the Worker.
 // Static files (the maker) come from the ASSETS binding; everything under /api, /d, /wall, /memory, /i, /p,
-// /rounds, /rules, /privacy, /terms and /admin is answered here. Contest routes stay dark until the
-// contest_enabled setting is true (set from /admin; the first round waits on counsel).
+// /privacy, /terms and /admin is answered here.
 import {
   now, centralDay, shortId, tokenHex, sha256, makeSession, readSession, sessionCookie,
   json, html, bad, escapeHtml as h, validEmail, visitorHash, sendMail, screen,
 } from './lib.js';
 import { wallPage, dogPage, simplePage, notFoundPage } from './pages.js';
 
-const RULES_VERSION_FALLBACK = 'draft-v3-2026-10-29';
+const TERMS_VERSION_FALLBACK = 'terms-of-use-2026-05-16';
 const MAX_PHOTO = 12 * 1024 * 1024;   // original
 const MAX_CUT = 3 * 1024 * 1024;      // each JPEG cut
 
@@ -23,10 +22,8 @@ export default {
       if (p.startsWith('/d/') && request.method === 'GET') return dog(env, request, p.slice(3));
       if (p.startsWith('/p/') && request.method === 'GET') return photo(env, request, p.slice(3));
       if (p.startsWith('/i/') && request.method === 'GET') return invite(env, request, p.slice(3));
-      if (p === '/rules' && request.method === 'GET') return rules(env);
       if (p === '/privacy') return Response.redirect('https://brockalston.com/privacy-policy', 302);
       if (p === '/terms') return Response.redirect('https://brockalston.com/terms-of-use', 302);
-      if (p.startsWith('/rounds/')) return rounds(env, request, p.slice(8));
 
       // ----- api -----
       if (p === '/api/health') return health(env);
@@ -39,7 +36,6 @@ export default {
       if (p === '/api/post' && request.method === 'POST') return post(env, request, ctx);
       if (p === '/api/mine' && request.method === 'GET') return mine(env, request);
       if (p === '/api/remove' && request.method === 'POST') return remove(env, request);
-      if (p === '/api/vote' && request.method === 'POST') return vote(env, request);
       if (p.startsWith('/api/admin')) return admin(env, request, url);
       if (p.startsWith('/api/')) return bad('no such route', 404);
 
@@ -64,14 +60,7 @@ async function settings(env) {
   const { results } = await env.DB.prepare('SELECT key, value FROM settings').all();
   const s = Object.fromEntries(results.map((r) => [r.key, r.value]));
   return {
-    contestEnabled: s.contest_enabled === 'true',
-    thresholdEntries: Number(s.threshold_entries || 50),
-    thresholdDays: Number(s.threshold_days || 45),
-    votingDays: Number(s.voting_days || 14),
-    rulesVersion: s.rules_version || RULES_VERSION_FALLBACK,
-    prizeText: s.prize_text || '',
-    judgeName: s.judge_name || '',
-    alternateJudge: s.alternate_judge || '',
+    termsVersion: s.terms_version || TERMS_VERSION_FALLBACK,
     dogOfTheDay: s.dog_of_the_day || '',
   };
 }
@@ -82,14 +71,13 @@ const site = (env) => env.SITE_URL || 'https://dedication.jetsonsjourney.com';
 
 async function health(env) {
   const t = await env.DB.prepare('SELECT COUNT(*) AS n FROM entries').first();
-  const s = await settings(env);
-  return json({ ok: true, posting: postingOn(env), contest: s.contestEnabled, entries: t.n, rules_version: s.rulesVersion, time: now() });
+  return json({ ok: true, posting: postingOn(env), entries: t.n, time: now() });
 }
 
 async function config(env, request) {
   const s = await settings(env);
   const sess = await readSession(env.SESSION_SECRET || 'dev', request.headers.get('cookie'));
-  return json({ posting: postingOn(env), contest: s.contestEnabled, rules_version: s.rulesVersion, signed_in: sess ? sess.email : null });
+  return json({ posting: postingOn(env), terms_version: s.termsVersion, signed_in: sess ? sess.email : null });
 }
 
 // ---------------------------------------------------------------- sign-in by magic link
@@ -133,7 +121,7 @@ async function requireSession(env, request) {
 
 // ---------------------------------------------------------------- posting
 // multipart/form-data: original, story, feed, card (JPEG), dog_name, line, mode, background_id,
-// attest (on), contest (on|off), newsletter (on|off), test (on|off, DEV only).
+// attest (on), newsletter (on|off), test (on|off, DEV only).
 async function post(env, request, ctx) {
   if (!postingOn(env) && !devMode(env)) return bad('posting is not open yet', 403);
   const sess = await requireSession(env, request);
@@ -146,7 +134,6 @@ async function post(env, request, ctx) {
   const mode = form.get('mode') === 'in_memory' ? 'in_memory' : 'for';
   const background_id = String(form.get('background_id') || '').trim().slice(0, 64);
   const attest = form.get('attest') === 'on';
-  const contest = form.get('contest') === 'on';
   const newsletter = form.get('newsletter') === 'on';
   const is_test = devMode(env) && form.get('test') === 'on' ? 1 : 0;
   if (!dog_name || !line || !background_id) return bad('dog name, line and background are needed');
@@ -170,11 +157,10 @@ async function post(env, request, ctx) {
 
   const t = now();
   await env.DB.batch([
-    env.DB.prepare(`INSERT INTO entries (id, dog_name, line, mode, background_id, photo_key, story_key, feed_key, card_key, owner_email, status, attested_at, rules_version, invite_code, created_at, is_test)
+    env.DB.prepare(`INSERT INTO entries (id, dog_name, line, mode, background_id, photo_key, story_key, feed_key, card_key, owner_email, status, attested_at, terms_version, invite_code, created_at, is_test)
       VALUES (?,?,?,?,?,?,?,?,?,?,'pending',?,?,?,?,?)`)
-      .bind(id, dog_name, line, mode, background_id, keys.original, keys.story, keys.feed, keys.card, sess.email, t, s.rulesVersion, code, t, is_test),
+      .bind(id, dog_name, line, mode, background_id, keys.original, keys.story, keys.feed, keys.card, sess.email, t, s.termsVersion, code, t, is_test),
     env.DB.prepare('INSERT INTO invites (code, entry_id) VALUES (?,?)').bind(code, id),
-    ...(contest && s.contestEnabled ? [env.DB.prepare('INSERT OR IGNORE INTO round_optins (entry_id, round_id, consented_at, rules_version, via) VALUES (?,NULL,?,?,\'post_it\')').bind(id, t, s.rulesVersion)] : []),
     ...(newsletter ? [env.DB.prepare('UPDATE owners SET newsletter_opt_in = 1, newsletter_at = ? WHERE email = ?').bind(t, sess.email)] : []),
   ]);
 
@@ -265,18 +251,7 @@ async function wall(env, request, memory) {
       dotd = results[idx];
     }
   }
-  let goal = null;
-  if (s.contestEnabled && !memory) {
-    const since = await lastRoundClose(env);
-    const n = (await env.DB.prepare('SELECT COUNT(*) AS n FROM round_optins o JOIN entries e ON e.id = o.entry_id WHERE o.round_id IS NULL AND e.status = \'live\' AND e.is_test = 0 AND o.consented_at > ?').bind(since).first()).n;
-    goal = n >= s.thresholdEntries ? `The next contest round can open: ${n} dedications are entered.` : `The next contest round opens at ${s.thresholdEntries} entered dedications. ${n} so far.`;
-  }
-  return html(wallPage({ entries: results, dotd, memory, goal, site: site(env) }), 200, { 'cache-control': 'public, max-age=60' });
-}
-
-async function lastRoundClose(env) {
-  const r = await env.DB.prepare('SELECT MAX(closed_at) AS t FROM rounds').first();
-  return r?.t || 0;
+  return html(wallPage({ entries: results, dotd, memory, site: site(env) }), 200, { 'cache-control': 'public, max-age=60' });
 }
 
 async function dog(env, request, id) {
@@ -340,34 +315,6 @@ async function requestBackground(env, request) {
   return json({ ok: true });
 }
 
-// ---------------------------------------------------------------- rules and rounds (dark until approved)
-async function rules(env) {
-  const s = await settings(env);
-  const body = `
-<p class="small">Rules version ${h(s.rulesVersion)}. The contest has not opened. The Official Rules will appear here, in full, once approved; until then this page is a placeholder and no round can be scheduled.</p>
-<h2>In plain words</h2>
-<p>Posting a dedication is free and is not an entry. Entering a contest round is a separate box you tick. Voting needs a verified email, one vote per dog per day. Prizes are a signed paperback and the Gold edition of your dog’s page. You can take your dedication down at any time from the link in your email.</p>
-<p>Questions: <a href="mailto:${h(env.CONTACT_EMAIL || 'admin@brockalston.com')}">${h(env.CONTACT_EMAIL || 'admin@brockalston.com')}</a>.</p>`;
-  return html(simplePage({ title: 'Contest rules', description: 'Official Rules for the Dedication Wall Contest.', bodyHtml: body, site: site(env), path: '/rules' }));
-}
-
-async function rounds(env, request, rest) {
-  const s = await settings(env);
-  if (!s.contestEnabled) return html(notFoundPage(), 404);
-  const id = Number(rest.replace(/[^0-9]/g, ''));
-  const r = await env.DB.prepare('SELECT * FROM rounds WHERE number = ?').bind(id).first();
-  if (!r) return html(notFoundPage(), 404);
-  const notice = JSON.parse(r.notice);
-  const body = `<h2>Round ${r.number}</h2><p class="small">Rules version ${h(r.rules_version)} · ${h(r.status)}</p><p>${h(notice.summary || '')}</p>`;
-  return html(simplePage({ title: `Round ${r.number}`, bodyHtml: body, site: site(env), path: `/rounds/${r.number}` }));
-}
-
-async function vote(env, request) {
-  const s = await settings(env);
-  if (!s.contestEnabled) return bad('the contest is not open', 403);
-  return bad('voting opens with the first round', 403); // built in the contest block
-}
-
 // ---------------------------------------------------------------- admin (token in header or ?token=, then cookie)
 async function adminAuth(env, request, url) {
   if (!env.ADMIN_TOKEN) return false;
@@ -406,7 +353,7 @@ async function admin(env, request, url) {
   if (p === 'settings' && request.method === 'GET') return json({ ok: true, settings: await settings(env) });
   if (p === 'settings' && request.method === 'POST') {
     const b = await request.json().catch(() => ({}));
-    const allowed = ['contest_enabled', 'threshold_entries', 'threshold_days', 'voting_days', 'rules_version', 'prize_text', 'judge_name', 'alternate_judge', 'dog_of_the_day'];
+    const allowed = ['terms_version', 'dog_of_the_day'];
     const stmts = [];
     for (const [k, v] of Object.entries(b)) {
       if (!allowed.includes(k)) continue;
@@ -450,15 +397,11 @@ async function adminPage(env, request, url) {
 ${queue.length ? queue.map((e) => `<div class="dotd" style="grid-template-columns:120px 1fr"><img src="/p/${h(e.id)}/card.jpg" onerror="this.style.visibility='hidden'" alt="" /><div><strong>${h(e.dog_name)}</strong> · ${e.mode === 'in_memory' ? 'In memory' : 'For'} · ${h(e.owner_email)}${e.is_test ? ' · TEST' : ''}<br><em>${h(e.line)}</em><br><span class="small">${h(e.screen_result || 'not screened yet')}</span><div class="row"><button class="btn" onclick="decide('${h(e.id)}','live')">Publish</button><button class="btn quiet" onclick="decide('${h(e.id)}','rejected')">Reject</button></div></div></div>`).join('') : '<p class="small">Nothing waiting.</p>'}
 <h2>Switches</h2>
 <form onsubmit="return saveSettings(event)">
-<p><label><input type="checkbox" name="contest_enabled" ${s.contestEnabled ? 'checked' : ''}/> Contest module on</label></p>
-<p><label>Entries needed <input name="threshold_entries" value="${s.thresholdEntries}" size="4"/></label> &nbsp; <label>Days since last close <input name="threshold_days" value="${s.thresholdDays}" size="4"/></label> &nbsp; <label>Voting days <input name="voting_days" value="${s.votingDays}" size="4"/></label></p>
-<p><label>Rules version <input name="rules_version" value="${h(s.rulesVersion)}" size="28"/></label></p>
-<p><label>Prize text<br><textarea name="prize_text" rows="2" cols="70">${h(s.prizeText)}</textarea></label></p>
-<p><label>Judge <input name="judge_name" value="${h(s.judgeName)}"/></label> &nbsp; <label>Alternate judge <input name="alternate_judge" value="${h(s.alternateJudge)}"/></label></p>
 <p><label>Dog of the day (entry id, blank = automatic) <input name="dog_of_the_day" value="${h(s.dogOfTheDay)}" size="10"/></label></p>
+<p><label>Terms version recorded on new posts <input name="terms_version" value="${h(s.termsVersion)}" size="28"/></label></p>
 <p><button class="btn" type="submit">Save</button> <span class="small" id="saved"></span></p>
 </form>
-<p class="small">Posting on the live site: <strong>${postingOn(env) ? 'ON' : 'OFF'}</strong> (a deploy variable, not a switch here). Round scheduler and score sheets arrive with the contest block.</p>
+<p class="small">Posting on the live site: <strong>${postingOn(env) ? 'ON' : 'OFF'}</strong> (a deploy variable, not a switch here).</p>
 <script>
 async function decide(id, status){ const r = await fetch('/api/admin/decide',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id,status})}); if((await r.json()).ok) location.reload(); }
 async function saveSettings(ev){ ev.preventDefault(); const f=ev.target; const b={}; for(const el of f.elements){ if(!el.name) continue; b[el.name]= el.type==='checkbox'? String(el.checked) : el.value; } const r=await fetch('/api/admin/settings',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b)}); document.getElementById('saved').textContent=(await r.json()).ok?'Saved.':'Failed.'; return false; }
@@ -468,7 +411,6 @@ async function saveSettings(ev){ ev.preventDefault(); const f=ev.target; const b
 
 // ---------------------------------------------------------------- daily cron
 async function daily(env) {
-  const s = await settings(env);
   const t = now();
   const since = t - 7 * 86400;
   const q = async (sql, ...b) => (await env.DB.prepare(sql).bind(...b).first());
@@ -481,14 +423,5 @@ async function daily(env) {
     await sendMail(env, { to: env.CONTACT_EMAIL, kind: 'digest', subject: 'Dedication Wall, this week',
       text: `New dogs on the wall: ${newLive}\nWaiting in the queue: ${pending}\nHearts so far: ${hearts}\nBackground requests open: ${requests}\n\nAdmin: ${site(env)}/admin`,
       html: `<p>New dogs on the wall: <strong>${newLive}</strong><br>Waiting in the queue: <strong>${pending}</strong><br>Hearts so far: ${hearts}<br>Background requests open: ${requests}</p><p><a href="${site(env)}/admin">Admin</a></p>` });
-  }
-  if (s.contestEnabled && env.CONTACT_EMAIL) {
-    const closed = await lastRoundClose(env);
-    const n = (await q('SELECT COUNT(*) AS n FROM round_optins o JOIN entries e ON e.id = o.entry_id WHERE o.round_id IS NULL AND e.status = \'live\' AND e.is_test = 0 AND o.consented_at > ?', closed)).n;
-    const daysSince = closed ? Math.floor((t - closed) / 86400) : 9999;
-    const open = await q('SELECT COUNT(*) AS n FROM rounds WHERE status IN (\'announced\',\'voting\')');
-    if (!open.n && n >= s.thresholdEntries && daysSince >= s.thresholdDays) {
-      await sendMail(env, { to: env.CONTACT_EMAIL, kind: 'alert', subject: 'Open a round?', text: `${n} entered dedications and ${daysSince} days since the last close. Nothing opens until you publish a notice in /admin.`, html: `<p>${n} entered dedications and ${daysSince} days since the last close. Nothing opens until you publish a notice in <a href="${site(env)}/admin">/admin</a>.</p>` });
-    }
   }
 }

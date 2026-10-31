@@ -4,7 +4,7 @@ const enc = new TextEncoder();
 
 export const now = () => Math.floor(Date.now() / 1000);
 
-// Calendar day in America/Chicago, YYYY-MM-DD (Rules v3 §5: one vote per entry per Central day).
+// Calendar day in America/Chicago, YYYY-MM-DD (hearts: one per visitor per entry per Central day).
 export function centralDay(ts = Date.now()) {
   const d = new Date(ts);
   const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(d);
@@ -92,7 +92,7 @@ export async function visitorHash(request, secret) {
 
 // ---------- mail (Resend) ----------
 // With no RESEND_API_KEY the message is logged as 'dev' and, in DEV_MODE, returned to the caller.
-export async function sendMail(env, { to, subject, text, html: htmlBody, kind, entry_id = null, round_id = null }) {
+export async function sendMail(env, { to, subject, text, html: htmlBody, kind, entry_id = null }) {
   const from = env.MAIL_FROM || 'Every Dog Deserves a Dedication <hello@jetsonsjourney.com>';
   let status = 'dev', provider_id = null, detail = null;
   if (env.RESEND_API_KEY) {
@@ -110,8 +110,8 @@ export async function sendMail(env, { to, subject, text, html: htmlBody, kind, e
       status = 'failed'; detail = String(e).slice(0, 500);
     }
   }
-  await env.DB.prepare('INSERT INTO notices (kind, to_email, entry_id, round_id, provider_id, status, sent_at, detail) VALUES (?,?,?,?,?,?,?,?)')
-    .bind(kind, to, entry_id, round_id, provider_id, status, now(), detail).run();
+  await env.DB.prepare('INSERT INTO notices (kind, to_email, entry_id, provider_id, status, sent_at, detail) VALUES (?,?,?,?,?,?,?)')
+    .bind(kind, to, entry_id, provider_id, status, now(), detail).run();
   return { status, provider_id };
 }
 
